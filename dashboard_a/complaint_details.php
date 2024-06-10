@@ -75,6 +75,7 @@ session_start();
         /* Center both vertically and horizontally */
         width: 900px;
         max-height: 60%;
+        z-index: 1000;
         /* Adjust as needed */
 
         /* Add scrollbar if content exceeds height */
@@ -123,6 +124,18 @@ session_start();
         margin: 0;
         opacity: 1;
         transition: 0s;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        /* Adjust the transparency as needed */
+        z-index: 999;
     }
 
     th,
@@ -215,9 +228,9 @@ session_start();
                             Delete
                         </button>
                     </td>
-                 <!-- ................................................................Assign Garni................................................. -->
+                    <!-- ................................................................Assign Garni................................................. -->
 
-                 <td style="text-align: center;">
+                    <td style="text-align: center;">
                         <select class="assign-to-dropdown">
                             <option>Select</option>
                             <?php
@@ -403,6 +416,7 @@ session_start();
     </div>
     <!-- ..............................................................POPUP START................................................................... -->
     <!-- ?php include_once("../student_dashboard/student_dash.php"); ?> -->
+    <div class="overlay" id="overlay"></div>
     <div class="container-fluid">
         <div id="popup" class="popup">
             <div class="popup-content" id="popup-content">
@@ -421,6 +435,8 @@ session_start();
     // Function to open the popup with the specified complaint ID
     function openPopup(complaintID) {
         // Use AJAX to fetch complaint details based on the complaint ID
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'block';
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
@@ -439,9 +455,14 @@ session_start();
         xhr.open('GET', 'fetch_complaint_details.php?complaintID=' + complaintID, true);
         xhr.send();
     }
+    document.getElementById('overlay').addEventListener('click', function() {
+        closePopup();
+    });
 
     // Function to close the popup
     function closePopup() {
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
         var popup = document.getElementById('popup');
         popup.style.display = 'none';
     }

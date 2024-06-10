@@ -298,9 +298,9 @@
                             </thead>
                             <tbody>
                                 <?php while ($row = mysqli_fetch_assoc($selectExe)) {
-                $profileImageName = $row['profile_image'];
-                $profileImageURL = '../photoes/' . $profileImageName;
-                ?>
+                                $profileImageName = $row['profile_image'];
+                                $profileImageURL = '../photoes/' . $profileImageName;
+                                ?>
                                 <tr>
                                     <td><?php echo $row['complain_user']; ?></td>
                                     <td>

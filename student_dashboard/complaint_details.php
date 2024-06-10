@@ -225,7 +225,25 @@ session_start();
         </div>
     </div>
     <!-- ..............................................................POPUP START................................................................... -->
-    <!-- ?php include_once("../student_dashboard/student_dash.php"); ?> -->
+    <style>
+    .popup {
+        z-index: 1000;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        /* Adjust the transparency as needed */
+        z-index: 999;
+    }
+    </style>
+    <div class="overlay" id="overlay"></div>
+
     <div class="container-fluid">
         <div id="popup" class="popup">
             <div class="popup-content" id="popup-content">
@@ -243,6 +261,8 @@ session_start();
     <script>
     // Function to open the popup with the specified complaint ID
     function openPopup(complaintID) {
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'block';
         // Use AJAX to fetch complaint details based on the complaint ID
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -262,9 +282,14 @@ session_start();
         xhr.open('GET', 'fetch_complaint_details.php?complaintID=' + complaintID, true);
         xhr.send();
     }
+    document.getElementById('overlay').addEventListener('click', function() {
+        closePopup();
+    });
 
     // Function to close the popup
     function closePopup() {
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
         var popup = document.getElementById('popup');
         popup.style.display = 'none';
     }
